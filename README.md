@@ -5,10 +5,10 @@ This repository hosts exported VOA movie ticket PNG files through GitHub Pages.
 Protected ticket page URL format:
 
 ```text
-https://lawpjr65.github.io/voa-ticket-hosting/ticket.html?file=<ticket-file-name>.png&code=<associate-id-hash>
+https://lawpjr65.github.io/voa-ticket-hosting/ticket.html?file=<ticket-file-name>.png&code=<ticket-number-hash>
 ```
 
-The VOA app generates QR codes that open `ticket.html`. The page asks for the associate's Associate ID before showing the ticket image.
+The VOA app generates QR codes that open `ticket.html`. The page asks for the ticket number before showing the ticket image.
 
 Important: GitHub Pages is public static hosting. This code gate prevents casual viewing from a QR scan, but the underlying PNG file is still public if someone knows the exact image URL.
 

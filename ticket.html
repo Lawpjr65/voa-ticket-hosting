@@ -113,11 +113,11 @@
   <main>
     <section id="gate">
       <h1>Ticket Access</h1>
-      <p>Enter your Associate ID to view and download your movie ticket.</p>
+      <p>Enter your ticket number to view and download your movie ticket.</p>
       <form id="access-form">
         <div>
-          <label for="associate-id">Associate ID</label>
-          <input id="associate-id" name="associate-id" type="password" inputmode="numeric" autocomplete="off" required>
+          <label for="ticket-number">Ticket Number</label>
+          <input id="ticket-number" name="ticket-number" type="password" autocomplete="off" required>
         </div>
         <div class="actions">
           <button type="submit">Open Ticket</button>
@@ -142,7 +142,7 @@
     const gate = document.getElementById("gate");
     const ticket = document.getElementById("ticket");
     const form = document.getElementById("access-form");
-    const input = document.getElementById("associate-id");
+    const input = document.getElementById("ticket-number");
     const error = document.getElementById("error");
     const image = document.getElementById("ticket-image");
     const download = document.getElementById("download-link");
@@ -179,7 +179,7 @@
 
       const enteredHash = await sha256(input.value);
       if (enteredHash !== expectedHash) {
-        error.textContent = "Associate ID does not match this ticket.";
+        error.textContent = "Ticket number does not match this ticket.";
         return;
       }
 
