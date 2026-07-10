@@ -23,7 +23,8 @@
       margin: 0;
       min-height: 100vh;
       display: grid;
-      place-items: center;
+      align-items: start;
+      justify-items: center;
       padding: 20px;
       background:
         radial-gradient(circle at 50% 25%, rgba(249, 99, 2, 0.16), transparent 34%),
@@ -37,6 +38,8 @@
       padding: 24px;
       background: rgba(5, 5, 5, 0.92);
       box-shadow: 0 0 34px rgba(249, 99, 2, 0.22);
+      display: grid;
+      gap: 18px;
     }
 
     h1 {
@@ -116,19 +119,16 @@
     }
 
     .intro {
-      position: fixed;
-      inset: 0;
-      z-index: 10;
+      position: relative;
+      width: 100%;
+      min-height: min(58vh, 470px);
+      z-index: 1;
       display: grid;
       place-items: center;
       padding: 20px;
       background: #020202;
       overflow: hidden;
-      animation: introFade 0.55s ease 4.65s forwards;
-    }
-
-    .intro.hidden {
-      display: none;
+      border: 1px solid rgba(249, 99, 2, 0.52);
     }
 
     .curtain {
@@ -202,8 +202,8 @@
 
     .screen {
       position: relative;
-      width: min(88vw, 680px);
-      min-height: 360px;
+      width: min(100%, 680px);
+      min-height: clamp(300px, 45vh, 390px);
       border: 2px solid rgba(249, 99, 2, 0.92);
       background:
         linear-gradient(180deg, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.82)),
@@ -231,8 +231,9 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.42;
+      opacity: 0;
       background: #080808;
+      animation: artworkReveal 0.65s ease 2.55s forwards;
     }
 
     .mission {
@@ -241,6 +242,9 @@
       text-align: center;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: missionReveal 0.7s ease 3.55s forwards;
     }
 
     .mission .eyebrow {
@@ -278,10 +282,17 @@
       z-index: 12;
     }
 
-    main {
+    #gate {
       opacity: 0;
-      transform: translateY(10px);
-      animation: pageReveal 0.55s ease 4.85s forwards;
+      transform: translateY(14px);
+      pointer-events: none;
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    body.gate-ready #gate {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
     }
 
     @keyframes lightsDim {
@@ -313,45 +324,48 @@
       to { transform: translateY(0) scale(1); }
     }
 
-    @keyframes introFade {
-      to { opacity: 0; visibility: hidden; }
+    @keyframes artworkReveal {
+      to { opacity: 0.52; }
     }
 
-    @keyframes pageReveal {
+    @keyframes missionReveal {
       to { opacity: 1; transform: translateY(0); }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .intro {
-        display: none;
-      }
-
-      main {
+      .screen,
+      .screen-art,
+      .mission,
+      #gate {
         opacity: 1;
         transform: none;
         animation: none;
+      }
+
+      #gate {
+        pointer-events: auto;
       }
     }
   </style>
 </head>
 <body>
-  <section id="intro" class="intro" aria-label="Movie ticket intro">
-    <div class="curtain"></div>
-    <div class="projector" aria-hidden="true"></div>
-    <div class="beam" aria-hidden="true"></div>
-    <div class="spotlight" aria-hidden="true"></div>
-    <div class="screen">
-      <img id="screen-art" class="screen-art" alt="" hidden>
-      <div class="mission">
-        <div class="eyebrow">1109 Cinemas Presents</div>
-        <h2>Survey<br>Mission</h2>
-        <div class="line">Your voice gets the spotlight.</div>
-      </div>
-    </div>
-    <button id="skip-intro" class="skip" type="button">Skip</button>
-  </section>
-
   <main>
+    <section id="intro" class="intro" aria-label="Movie ticket intro">
+      <div class="curtain"></div>
+      <div class="projector" aria-hidden="true"></div>
+      <div class="beam" aria-hidden="true"></div>
+      <div class="spotlight" aria-hidden="true"></div>
+      <div class="screen">
+        <img id="screen-art" class="screen-art" alt="" hidden>
+        <div class="mission">
+          <div class="eyebrow">1109 Cinemas Presents</div>
+          <h2>Survey<br>Mission</h2>
+          <div class="line">Your voice gets the spotlight.</div>
+        </div>
+      </div>
+      <button id="skip-intro" class="skip" type="button">Show Access</button>
+    </section>
+
     <section id="gate">
       <h1>VIP Ticket Access</h1>
       <p>Every associate has a voice. Enter your ticket number to unlock your digital premiere pass.</p>
@@ -387,10 +401,9 @@
     const error = document.getElementById("error");
     const image = document.getElementById("ticket-image");
     const download = document.getElementById("download-link");
-    const intro = document.getElementById("intro");
     const skipIntro = document.getElementById("skip-intro");
     const screenArt = document.getElementById("screen-art");
-    const introArtwork = params.get("artwork") || "";
+    const introArtwork = params.get("poster") || params.get("artwork") || "";
 
     function validTicketFile(value) {
       return /^[A-Za-z0-9._% -]+\.png$/.test(value);
@@ -417,8 +430,9 @@
       ticket.style.display = "grid";
     }
 
-    function hideIntro() {
-      intro.classList.add("hidden");
+    function showGate() {
+      document.body.classList.add("gate-ready");
+      skipIntro.hidden = true;
     }
 
     if (validArtworkFile(introArtwork)) {
@@ -426,11 +440,10 @@
       screenArt.hidden = false;
     }
 
-    skipIntro.addEventListener("click", hideIntro);
-    intro.addEventListener("animationend", event => {
-      if (event.animationName === "introFade") {
-        hideIntro();
-      }
+    const gateTimer = window.setTimeout(showGate, 5150);
+    skipIntro.addEventListener("click", () => {
+      window.clearTimeout(gateTimer);
+      showGate();
     });
 
     if (!validTicketFile(file) || !expectedHash) {
