@@ -104,6 +104,15 @@
       margin-top: 14px;
     }
 
+    .download-actions {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .download-actions a.download {
+      width: 100%;
+    }
+
     .error {
       min-height: 22px;
       color: #ffb199;
@@ -374,8 +383,9 @@
     <section id="ticket" class="ticket">
       <h1>Your Ticket</h1>
       <img id="ticket-image" alt="VOA movie ticket">
-      <div class="actions">
-        <a id="download-link" class="download" download>Download Image</a>
+      <div class="actions download-actions">
+        <a id="download-link" class="download" download>Download Ticket</a>
+        <a id="poster-download-link" class="download" download hidden>Download Poster</a>
       </div>
     </section>
   </main>
@@ -391,6 +401,7 @@
     const error = document.getElementById("error");
     const image = document.getElementById("ticket-image");
     const download = document.getElementById("download-link");
+    const posterDownload = document.getElementById("poster-download-link");
     const posterArt = document.getElementById("poster-art");
     const introArtwork = params.get("poster") || params.get("artwork") || "ASSISTANT_MGRS_Training_Day_Poster.png";
 
@@ -427,6 +438,9 @@
       const artworkUrl = `artwork/${encodeURIComponent(introArtwork)}`;
       posterArt.src = artworkUrl;
       posterArt.hidden = false;
+      posterDownload.href = artworkUrl;
+      posterDownload.download = introArtwork;
+      posterDownload.hidden = false;
     }
 
     const gateTimer = window.setTimeout(showGate, 4200);
