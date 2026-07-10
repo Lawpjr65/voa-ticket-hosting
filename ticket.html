@@ -205,9 +205,11 @@
 
     .poster-showcase {
       position: relative;
-      width: min(100%, 430px);
+      z-index: 2;
+      width: min(88vw, 430px);
       justify-self: center;
       aspect-ratio: 4 / 5;
+      margin-top: -230px;
       opacity: 0;
       transform: translateY(16px) scale(0.98);
       animation: posterReveal 0.8s ease 2s forwards;
