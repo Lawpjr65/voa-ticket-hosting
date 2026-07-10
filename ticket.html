@@ -162,7 +162,7 @@
       background: #070707;
       box-shadow: 0 0 18px rgba(255, 241, 208, 0.18);
       opacity: 0;
-      animation: projectorStart 0.55s ease 0.75s forwards;
+      animation: projectorStart 0.55s ease 2.25s forwards;
     }
 
     .projector::before,
@@ -175,7 +175,7 @@
       border: 5px dotted var(--cream);
       border-radius: 999px;
       opacity: 0.78;
-      animation: reelSpin 1.05s linear 0.85s infinite;
+      animation: reelSpin 1.05s linear 2.55s infinite;
     }
 
     .projector::before {
@@ -197,7 +197,7 @@
       clip-path: polygon(0 45%, 100% 0, 100% 100%, 0 55%);
       opacity: 0;
       filter: blur(1px);
-      animation: beamOn 0.7s ease 1.05s forwards, beamFlicker 0.18s linear 1.75s 7;
+      animation: beamOn 0.7s ease 3.15s forwards, beamFlicker 0.18s linear 5.25s 7;
     }
 
     .spotlight {
@@ -209,7 +209,7 @@
       transform: translateX(-50%);
       background: radial-gradient(ellipse at center, rgba(255, 241, 208, 0.34), rgba(249, 99, 2, 0.09) 42%, transparent 70%);
       opacity: 0;
-      animation: spotlightOn 0.9s ease 1.7s forwards;
+      animation: spotlightOn 0.9s ease 5.1s forwards;
     }
 
     .poster-showcase {
@@ -221,7 +221,7 @@
       margin-top: -230px;
       opacity: 0;
       transform: translateY(16px) scale(0.98);
-      animation: posterReveal 0.8s ease 2s forwards;
+      animation: posterReveal 0.8s ease 6s forwards;
     }
 
     .poster-showcase::before {
@@ -244,7 +244,7 @@
     .mission-panel {
       opacity: 0;
       transform: translateY(12px) scale(0.98);
-      animation: missionReveal 0.7s ease 3s forwards;
+      animation: missionReveal 0.7s ease 9s forwards;
     }
 
     .mission {
@@ -443,7 +443,7 @@
       posterDownload.hidden = false;
     }
 
-    const gateTimer = window.setTimeout(showGate, 4200);
+    const gateTimer = window.setTimeout(showGate, 12600);
 
     if (!validTicketFile(file) || !expectedHash) {
       error.textContent = "This ticket link is incomplete.";
