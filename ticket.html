@@ -267,18 +267,6 @@
       letter-spacing: 0.03em;
     }
 
-    .skip {
-      position: absolute;
-      right: 16px;
-      bottom: 16px;
-      min-height: 38px;
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      background: rgba(0, 0, 0, 0.45);
-      color: #fff;
-      font-size: 14px;
-      z-index: 12;
-    }
-
     #gate {
       opacity: 0;
       transform: translateY(14px);
@@ -352,7 +340,6 @@
       <div class="projector" aria-hidden="true"></div>
       <div class="beam" aria-hidden="true"></div>
       <div class="spotlight" aria-hidden="true"></div>
-      <button id="skip-intro" class="skip" type="button">Show Access</button>
     </section>
 
     <section class="poster-showcase" aria-label="Movie poster artwork">
@@ -402,7 +389,6 @@
     const error = document.getElementById("error");
     const image = document.getElementById("ticket-image");
     const download = document.getElementById("download-link");
-    const skipIntro = document.getElementById("skip-intro");
     const posterArt = document.getElementById("poster-art");
     const introArtwork = params.get("poster") || params.get("artwork") || "ASSISTANT_MGRS_Training_Day_Poster.png";
 
@@ -433,7 +419,6 @@
 
     function showGate() {
       document.body.classList.add("gate-ready");
-      skipIntro.hidden = true;
     }
 
     if (validArtworkFile(introArtwork)) {
@@ -443,10 +428,6 @@
     }
 
     const gateTimer = window.setTimeout(showGate, 4200);
-    skipIntro.addEventListener("click", () => {
-      window.clearTimeout(gateTimer);
-      showGate();
-    });
 
     if (!validTicketFile(file) || !expectedHash) {
       error.textContent = "This ticket link is incomplete.";
