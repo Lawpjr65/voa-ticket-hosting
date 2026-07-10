@@ -403,7 +403,7 @@
     const download = document.getElementById("download-link");
     const skipIntro = document.getElementById("skip-intro");
     const screenArt = document.getElementById("screen-art");
-    const introArtwork = params.get("poster") || params.get("artwork") || "";
+    const introArtwork = params.get("poster") || params.get("artwork") || "ASSISTANT_MGRS_Training_Day_Poster.png";
 
     function validTicketFile(value) {
       return /^[A-Za-z0-9._% -]+\.png$/.test(value);
