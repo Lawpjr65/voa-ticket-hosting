@@ -407,7 +407,38 @@
     const download = document.getElementById("download-link");
     const posterDownload = document.getElementById("poster-download-link");
     const posterArt = document.getElementById("poster-art");
-    const introArtwork = params.get("poster") || params.get("artwork") || "ASSISTANT_MGRS_Training_Day_Poster.png";
+    const departmentPosters = {
+      "001": "ASSISTANT_MGRS_Training_Day_Poster.png",
+      "008": "DEPT_SUP_HRM_The_Avengers_Poster.png",
+      "021": "LUMBER_The_Lord_of_the_Rings_Poster.png",
+      "023": "WALL_FLOOR_COVER_BLINDS_WALLPAPER_Field_of_Dreams_Poster.png",
+      "024": "PAINT_Avatar_Poster.png",
+      "025": "HARDWARE_Mission_Impossible_Poster.png",
+      "026": "PLUMBING_Aquaman_Poster.png",
+      "027": "ELECTRICAL_LIGHTING_Back_to_the_Future_Poster.png",
+      "028": "GARDEN_SEASONAL_Jurassic_Park_Poster.png",
+      "030": "MILLWORK_National_Treasure_Poster.png",
+      "031": "SPECIAL_SERVICES_The_Shawshank_Redemption_Poster.png",
+      "038": "PACKOUT_TEAM_Fast_Furious_Poster.png",
+      "041": "PROJECT_SERVICES_Ford_v_Ferrari_Poster.png",
+      "042": "PRO_SALES_The_Wolf_of_Wall_Street_Poster.png",
+      "059": "WALL_FLOOR_COVER_BLINDS_WALLPAPER_Field_of_Dreams_Poster.png",
+      "070": "APPLIANCES_The_Hunger_Games_Poster.png",
+      "078": "TOOL_RENTAL_Raiders_of_the_Lost_Ark_Poster.png",
+      "090": "CASHIERS_REFUNDS_A_League_of_Their_Own_Poster.png",
+      "093": "RECEIVING_The_Transporter_Poster.png",
+      "094": "DELIVERIES_Planes_Trains_and_Automobiles_Poster.png"
+    };
+
+    function posterForTicketFile(value) {
+      const match = value.match(/^(\d{3})_/);
+      return match ? departmentPosters[match[1]] : null;
+    }
+
+    const introArtwork = params.get("poster")
+      || params.get("artwork")
+      || posterForTicketFile(file)
+      || "ASSISTANT_MGRS_Training_Day_Poster.png";
 
     function validTicketFile(value) {
       return /^[A-Za-z0-9._% -]+\.png$/.test(value);
